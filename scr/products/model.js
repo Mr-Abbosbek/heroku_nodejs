@@ -2,8 +2,8 @@ const dbConn = require("../../config/dbconfig");
 
 const Products = function (product) {
   this.id = product.id;
-  this.name = product.name;
-  this.age = product.age;
+  this.login = product.login;
+  this.password = product.password;
   this.role = product.role;
 };
 Products.getProducts = (result) => {
@@ -39,14 +39,12 @@ Products.addProducts = (productData, result) => {
 };
 Products.updateProducts = (id, productData, result) => {
   dbConn.query(
-    "UPDATE `employes` SET `id`=?, `name`=?, `age`=?, `role`=?, `category`=?, `thumbnail`=? WHERE id=?",
+    "UPDATE `employes` SET `id`=?, `login`=?, `password`=?, `role`=? WHERE id=?",
     [
       productData.id,
-      productData.name,
-      productData.age,
+      productData.login,
+      productData.password,
       productData.role,
-      productData.category,
-      productData.thumbnail,
       id,
     ],
     (err, res) => {
