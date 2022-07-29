@@ -10,30 +10,26 @@ app.use(
   bodyParser.urlencoded({
     extended: true,
   })
-)
+);
 
 const bcrypt = require("bcryptjs");
 const uuid = require("uuid");
 
 const db = require("./config/dbconfig");
-const userMiddleware = require("./middleware/users")
+const userMiddleware = require("./middleware/users");
 
 const cors = require("cors");
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors())
 
 app.get("/", (req, res) => {
   res.send("Bosh sahifa");
 });
 
-
-
 app.post("/register", userMiddleware.validateRegister, (req, res, next) => {
-  db.query(`SELECT * FROM employes WHERE LOWER(username) = LOWER($1)`, [req.body.username],
+  db.query(
+    `SELECT * FROM employes WHERE LOWER(username) = LOWER($1)`,
+    [req.body.username],
     (err, result) => {
       if (result.rows.length) {
         return res.status(409).send({
@@ -49,7 +45,14 @@ app.post("/register", userMiddleware.validateRegister, (req, res, next) => {
           } else {
             // has hashed pw => add to database
             db.query(
-              `INSERT INTO employes (id, username, password, show_password, role) VALUES ($1, $2, $3, $4, $5)`, [req.body.id, req.body.username, hash, req.body.password, req.body.role],
+              `INSERT INTO employes (id, username, password, show_password, role) VALUES ($1, $2, $3, $4, $5)`,
+              [
+                req.body.id,
+                req.body.username,
+                hash,
+                req.body.password,
+                req.body.role,
+              ],
               (err, result) => {
                 if (err) {
                   throw err;
@@ -71,7 +74,8 @@ app.post("/register", userMiddleware.validateRegister, (req, res, next) => {
 
 app.post("/login", (req, res, next) => {
   db.query(
-    `SELECT * FROM employes WHERE username = $1`, [req.body.username],
+    `SELECT * FROM employes WHERE username = $1`,
+    [req.body.username],
     (err, result) => {
       // user does not exists
       if (err) {
@@ -87,7 +91,6 @@ app.post("/login", (req, res, next) => {
           msg: "Login yoki parol notog'ri!",
         });
       }
-
 
       bcrypt.compare(
         req.body.password,
@@ -130,9 +133,9 @@ app.post("/login", (req, res, next) => {
 app.get("/users", authToken, (req, res) => {
   jwt.verify(req.token, "secretKey", (err, data) => {
     if (err) {
-      res.status(401).json({ 
+      res.status(401).json({
         error: err,
-        message: "Token muddati tugadi!" 
+        message: "Token muddati tugadi!",
       });
     } else {
       db.query(
