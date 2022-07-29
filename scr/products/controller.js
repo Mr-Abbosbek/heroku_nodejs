@@ -10,11 +10,11 @@ exports.getAll = (req,res) => {
     });
 }
 exports.getId = (req,res) => {
-    productModel.getProductsId(req.params.id,(err, products)=>{
+    productModel.getProductsId(req.params.id,(err, product)=>{
         if(err){
             res.send(err);
         } else {
-            res.send(products);
+            res.send(product.rows);
         }
     });
 }

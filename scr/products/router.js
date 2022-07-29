@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const ProductConn = require('./controller');
+const auth = require('./../../Auth/auth');
 
 router.route('/')
-    .get(ProductConn.getAll)
-    .post(ProductConn.createProduct);
+    .get(auth, ProductConn.getAll)
+    .post(auth, ProductConn.createProduct);
     
 router.route('/:id')
-    .get(ProductConn.getId)
-    .put(ProductConn.updateProduct)
-    .delete(ProductConn.deleteProduct);
+    .get(auth, ProductConn.getId)
+    .put(auth, ProductConn.updateProduct)
+    .delete(auth, ProductConn.deleteProduct);
 
 module.exports = router;
