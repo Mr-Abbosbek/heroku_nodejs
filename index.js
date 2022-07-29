@@ -136,13 +136,13 @@ app.get("/users", authToken, (req, res) => {
       });
     } else {
       db.query(
-        "SELECT * FROM employes where id=?",
-        data.userId,
+        "SELECT * FROM employes where id=$1",
+        [data.userId],
         function (error, results, fields) {
           if (error) throw error;
           return res.send({
             error: false,
-            data: results[0],
+            data: results.rows[0],
             message: "Fetch Successfully.",
           });
         }
