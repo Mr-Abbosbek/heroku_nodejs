@@ -7,7 +7,7 @@ const Products = function (product) {
   this.role = product.role;
 };
 Products.getProducts = (result) => {
-  dbConn.query("SELECT * FROM `employes`", (err, res) => {
+  dbConn.query("SELECT * FROM employes", (err, res) => {
     if (err) {
       result(null, err);
     } else {
@@ -16,7 +16,7 @@ Products.getProducts = (result) => {
   });
 };
 Products.getProductsId = (id, result) => {
-  dbConn.query("select * from `employes` where id=?", id, (err, res) => {
+  dbConn.query("select * from employes where id=?", id, (err, res) => {
     if (err) {
       result(null, err);
     } else {
@@ -26,7 +26,7 @@ Products.getProductsId = (id, result) => {
 };
 Products.addProducts = (productData, result) => {
   dbConn.query(
-    "Insert into `employes` set ?",
+    "Insert into employes set ?",
     productData,
     (err, res) => {
       if (err) {
@@ -39,7 +39,7 @@ Products.addProducts = (productData, result) => {
 };
 Products.updateProducts = (id, productData, result) => {
   dbConn.query(
-    "UPDATE `employes` SET `id`=?, `login`=?, `password`=?, `role`=? WHERE id=?",
+    "UPDATE employes SET `id`=?, `login`=?, `password`=?, `role`=? WHERE id=?",
     [
       productData.id,
       productData.login,
@@ -57,7 +57,7 @@ Products.updateProducts = (id, productData, result) => {
   );
 };
 Products.deleteProducts = (id, result) => {
-  dbConn.query("delete from `employes` where id=?", id, (err, res) => {
+  dbConn.query("delete from employes where id=?", id, (err, res) => {
     if (err) {
       result(null, err);
     } else {
